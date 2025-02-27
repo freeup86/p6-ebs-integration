@@ -18,7 +18,7 @@
             <SeparatorMenuItem/>
             <MenuItem text="Exit" onAction="#exitApplication"/>
         </Menu>
-        <Menu text="Help">
+        <Menu text="Help ">
             <MenuItem text="About" onAction="#showAbout"/>
         </Menu>
     </MenuBar>
