@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox fx:id="mainContainer" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.tpcgrp.p6ebs.controller.MainController"
+      spacing="10">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <MenuBar fx:id="menuBar">
+        <Menu text="File">
+            <MenuItem text="Settings" onAction="#showSettings"/>
+            <SeparatorMenuItem/>
+            <MenuItem text="Exit" onAction="#exitApplication"/>
+        </Menu>
+        <Menu text="Help">
+            <MenuItem text="About" onAction="#showAbout"/>
+        </Menu>
+    </MenuBar>
+
+    <TabPane fx:id="mainTabPane" VBox.vgrow="ALWAYS">
+        <Tab text="Connection Setup" closable="false">
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+                <GridPane hgap="10" vgap="10">
+                    <!-- P6 Connection -->
+                    <Label text="P6 Database Connection" style="-fx-font-weight: bold"
+                           GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+
+                    <Label text="Server:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <TextField fx:id="p6Server" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                    <Label text="Database:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <TextField fx:id="p6Database" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                    <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                    <TextField fx:id="p6Username" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                    <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                    <PasswordField fx:id="p6Password" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+                    <Button text="Test Connection" onAction="#testP6Connection"
+                            GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+                    <!-- EBS Connection -->
+                    <Label text="Oracle EBS Connection" style="-fx-font-weight: bold"
+                           GridPane.columnIndex="2" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+
+                    <Label text="Server:" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                    <TextField fx:id="ebsServer" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+
+                    <Label text="SID:" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                    <TextField fx:id="ebsSid" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+
+                    <Label text="Username:" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+                    <TextField fx:id="ebsUsername" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+
+                    <Label text="Password:" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+                    <PasswordField fx:id="ebsPassword" GridPane.columnIndex="3" GridPane.rowIndex="4"/>
+
+                    <Button text="Test Connection" onAction="#testEbsConnection"
+                            GridPane.columnIndex="3" GridPane.rowIndex="5"/>
+                </GridPane>
+            </VBox>
+        </Tab>
+
+        <Tab text="Integration Setup" closable="false">
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+                <Label text="Select Integration Types:" style="-fx-font-weight: bold"/>
+                <CheckBox fx:id="projectFinancialsCheck" text="Project Financials Integration"/>
+                <CheckBox fx:id="resourceManagementCheck" text="Resource Management Integration"/>
+                <CheckBox fx:id="procurementCheck" text="Procurement Integration"/>
+                <CheckBox fx:id="timesheetCheck" text="Timesheet Integration"/>
+                <CheckBox fx:id="projectWbsCheck" text="Project/WBS Integration"/>
+
+                <Region VBox.vgrow="ALWAYS"/>
+
+                <HBox spacing="10" alignment="CENTER">
+                    <Button fx:id="startButton" text="Start Integration" onAction="#startIntegration"/>
+                    <Button fx:id="cancelButton" text="Cancel" onAction="#cancelOperation" disable="true"/>
+                </HBox>
+            </VBox>
+        </Tab>
+
+        <Tab text="P6 Activities" closable="false">
+            <fx:include source="p6-activities.fxml"/>
+        </Tab>
+
+        <Tab text="Logs" closable="false">
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Log Level:"/>
+                    <ComboBox fx:id="logLevelComboBox"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="Clear Log" onAction="#clearLog"/>
+                    <Button text="Export Log" onAction="#exportLog"/>
+                </HBox>
+
+                <TextArea fx:id="logArea" editable="false" wrapText="true" VBox.vgrow="ALWAYS"/>
+
+                <VBox spacing="5">
+                    <Label fx:id="statusLabel" text="Ready"/>
+                    <ProgressBar fx:id="progressBar" progress="0.0" maxWidth="Infinity"/>
+                </VBox>
+            </VBox>
+        </Tab>
+    </TabPane>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Save Configuration" onAction="#saveConfiguration"/>
+        <Button text="Load Configuration" onAction="#loadConfiguration"/>
+    </HBox>
+</VBox>

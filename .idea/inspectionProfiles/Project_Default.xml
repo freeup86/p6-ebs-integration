@@ -1,0 +1,47 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="VulnerableLibrariesLocal" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="isIgnoringEnabled" value="true" />
+      <option name="ignoredModules">
+        <list>
+          <option value="p6-ebs-integration" />
+          <option value="p6-ebs-integration" />
+          <option value="p6-ebs-integration" />
+          <option value="p6-ebs-integration" />
+          <option value="p6-ebs-integration" />
+          <option value="p6-ebs-integration" />
+          <option value="p6-ebs-integration" />
+          <option value="p6-ebs-integration" />
+          <option value="p6-ebs-integration" />
+        </list>
+      </option>
+      <option name="ignoredPackages">
+        <list>
+          <option value="org.springframework:spring-context:5.3.20" />
+          <option value="org.springframework.boot:spring-boot-autoconfigure:2.7.0" />
+          <option value="ch.qos.logback:logback-classic:1.2.11" />
+          <option value="org.yaml:snakeyaml:1.30" />
+          <option value="com.fasterxml.jackson.core:jackson-core:2.13.0" />
+          <option value="com.fasterxml.jackson.core:jackson-databind:2.13.0" />
+          <option value="com.jayway.jsonpath:json-path:2.7.0" />
+          <option value="net.minidev:json-smart:2.4.8" />
+          <option value="org.xmlunit:xmlunit-core:2.9.0" />
+        </list>
+      </option>
+      <option name="ignoredReasons">
+        <list>
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

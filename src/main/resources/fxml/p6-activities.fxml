@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.tpcgrp.p6ebs.controller.P6ActivitiesController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Select Project:"/>
+        <ComboBox fx:id="projectSelector" prefWidth="300"/>
+        <Button fx:id="loadActivitiesBtn" text="Load Activities" onAction="#loadActivities"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <ProgressIndicator fx:id="loadingIndicator" progress="-1.0"/>
+    </HBox>
+
+    <TableView fx:id="activitiesTable" VBox.vgrow="ALWAYS">
+        <!-- Columns will be added programmatically -->
+    </TableView>
+
+    <VBox spacing="5">
+        <Label text="Log:"/>
+        <TextArea fx:id="logArea" prefHeight="100" editable="false" wrapText="true"/>
+    </VBox>
+</VBox>
