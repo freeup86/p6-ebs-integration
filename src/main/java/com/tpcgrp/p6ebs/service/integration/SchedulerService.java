@@ -106,6 +106,83 @@ public class SchedulerService {
     }
 
     /**
+     * Schedule a reconciliation task for a specific entity type
+     *
+     * @param entityType The type of entity to reconcile
+     * @param intervalHours Interval between reconciliation runs in hours
+     */
+    public void scheduleReconciliation(String entityType, int intervalHours) {
+        logService.logInfo("Scheduling reconciliation for " + entityType + " every " + intervalHours + " hours");
+
+        // Cancel existing reconciliation schedule if any
+        cancelScheduledReconciliation(entityType);
+
+        // Create new schedule for reconciliation
+        ScheduledFuture<?> task = scheduler.scheduleAtFixedRate(
+                () -> executeScheduledReconciliation(entityType),
+                calculateInitialDelay(entityType, intervalHours),
+                intervalHours,
+                TimeUnit.HOURS
+        );
+
+        scheduledTasks.put(entityType + "_reconciliation", task);
+    }
+
+    /**
+     * Cancel a scheduled reconciliation
+     *
+     * @param entityType The type of entity reconciliation to cancel
+     */
+    public void cancelScheduledReconciliation(String entityType) {
+        String reconciliationKey = entityType + "_reconciliation";
+        ScheduledFuture<?> task = scheduledTasks.get(reconciliationKey);
+        if (task != null) {
+            task.cancel(false);
+            scheduledTasks.remove(reconciliationKey);
+            logService.logInfo("Cancelled scheduled reconciliation for " + entityType);
+        }
+    }
+
+    /**
+     * Execute a scheduled reconciliation
+     *
+     * @param entityType The type of entity to reconcile
+     */
+    private void executeScheduledReconciliation(String entityType) {
+        logService.logInfo("Executing scheduled reconciliation for " + entityType);
+
+        try {
+            // Load connection parameters from configuration
+            ConfigurationService.Configuration config = loadConnectionConfig();
+
+            if (config == null) {
+                logService.logError("Failed to load connection configuration for reconciliation");
+                return;
+            }
+
+            // Prepare connection parameters
+            Map<String, String> p6Params = new HashMap<>();
+            p6Params.put("server", config.getP6Server());
+            p6Params.put("database", config.getP6Database());
+            p6Params.put("username", config.getP6Username());
+            p6Params.put("password", config.getP6Password());
+
+            Map<String, String> ebsParams = new HashMap<>();
+            ebsParams.put("server", config.getEbsServer());
+            ebsParams.put("sid", config.getEbsSid());
+            ebsParams.put("username", config.getEbsUsername());
+            ebsParams.put("password", config.getEbsPassword());
+
+            // This is a placeholder - you'll need to implement actual reconciliation logic
+            // You might want to call a method in your ReconciliationService or similar
+            logService.logInfo("Performing reconciliation for " + entityType);
+
+        } catch (Exception e) {
+            logService.logError("Scheduled reconciliation failed for " + entityType + ": " + e.getMessage());
+        }
+    }
+
+    /**
      * Execute a scheduled integration
      */
     private void executeScheduledIntegration(String integrationType) {

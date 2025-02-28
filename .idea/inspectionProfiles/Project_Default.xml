@@ -14,6 +14,8 @@
           <option value="p6-ebs-integration" />
           <option value="p6-ebs-integration" />
           <option value="p6-ebs-integration" />
+          <option value="p6-ebs-integration" />
+          <option value="p6-ebs-integration" />
         </list>
       </option>
       <option name="ignoredPackages">
@@ -27,10 +29,14 @@
           <option value="com.jayway.jsonpath:json-path:2.7.0" />
           <option value="net.minidev:json-smart:2.4.8" />
           <option value="org.xmlunit:xmlunit-core:2.9.0" />
+          <option value="commons-io:commons-io:2.11.0" />
+          <option value="org.apache.commons:commons-compress:1.21" />
         </list>
       </option>
       <option name="ignoredReasons">
         <list>
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
           <option value="Not exploitable" />
           <option value="Not exploitable" />
           <option value="Not exploitable" />

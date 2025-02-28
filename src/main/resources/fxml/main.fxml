@@ -15,6 +15,11 @@
     <MenuBar fx:id="menuBar">
         <Menu text="File">
             <MenuItem text="Settings" onAction="#showSettings"/>
+            <MenuItem text="Import Configuration" onAction="#importConfiguration"/>
+            <MenuItem text="Export Configuration" onAction="#exportConfiguration"/>
+            <SeparatorMenuItem/>
+            <MenuItem text="Import Data" onAction="#importData"/>
+            <MenuItem text="Export Data" onAction="#exportData"/>
             <SeparatorMenuItem/>
             <MenuItem text="Exit" onAction="#exitApplication"/>
         </Menu>
@@ -108,6 +113,11 @@
             <fx:include source="reconciliation.fxml"/>
         </Tab>
 
+        <!-- Add Integration Simulator Tab -->
+        <Tab text="Integration Simulator" closable="false">
+            <fx:include source="integrationsimulator.fxml"/>
+        </Tab>
+
         <Tab text="Logs" closable="false">
             <VBox spacing="10">
                 <padding>
@@ -132,8 +142,9 @@
         </Tab>
     </TabPane>
 
+    <!-- replaced with FIlE > MENU items
     <HBox spacing="10" alignment="CENTER_RIGHT">
         <Button text="Save Configuration" onAction="#saveConfiguration"/>
         <Button text="Load Configuration" onAction="#loadConfiguration"/>
-    </HBox>
+    </HBox> -->
 </VBox>

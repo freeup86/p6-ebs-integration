@@ -147,6 +147,17 @@ public class MappingUtility {
     }
 
     /**
+     * Get field mappings for an entity type
+     * Ensure this method is public and returns the correct type
+     */
+    public Map<String, String> getFieldMappings(String entityType) {
+        if (fieldMappings.containsKey(entityType)) {
+            return fieldMappings.get(entityType);
+        }
+        return Collections.emptyMap();
+    }
+
+    /**
      * Convert data types between P6 and EBS
      */
     private Object convertDataType(Object value, String entityType, String sourceField, String targetField) {

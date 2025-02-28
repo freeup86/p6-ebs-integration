@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.tpcgrp.p6ebs.controller.IntegrationSimulatorController">
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Entity Type:"/>
+        <ComboBox fx:id="entityTypeCombo" prefWidth="150"/>
+
+        <Label text="Direction:"/>
+        <ComboBox fx:id="directionCombo" prefWidth="150"/>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <Button text="Generate Sample Data" onAction="#generateSampleData"/>
+        <Button fx:id="simulateButton" text="Run Simulation" onAction="#runSimulation"/>
+    </HBox>
+
+    <ProgressBar fx:id="simulationProgressBar" progress="0" visible="false" maxWidth="Infinity"/>
+
+    <TabPane VBox.vgrow="ALWAYS">
+        <Tab text="Simulation Results" closable="false">
+            <TableView fx:id="resultsTable" VBox.vgrow="ALWAYS">
+                <!-- Columns will be added programmatically -->
+            </TableView>
+        </Tab>
+
+        <Tab text="Simulation Log" closable="false">
+            <TextArea fx:id="simulationLogArea" editable="false" wrapText="true" VBox.vgrow="ALWAYS"/>
+        </Tab>
+
+        <Tab text="P6 Data" closable="false">
+            <TableView fx:id="p6DataTable" VBox.vgrow="ALWAYS">
+                <!-- Columns will be added programmatically -->
+            </TableView>
+        </Tab>
+
+        <Tab text="EBS Data" closable="false">
+            <TableView fx:id="ebsDataTable" VBox.vgrow="ALWAYS">
+                <!-- Columns will be added programmatically -->
+            </TableView>
+        </Tab>
+    </TabPane>
+</VBox>

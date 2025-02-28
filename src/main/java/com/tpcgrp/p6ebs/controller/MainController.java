@@ -2,25 +2,32 @@ package com.tpcgrp.p6ebs.controller;
 
 import com.tpcgrp.p6ebs.service.ConfigurationService;
 import com.tpcgrp.p6ebs.service.DatabaseService;
+import com.tpcgrp.p6ebs.service.FileImportExportService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.context.ApplicationContext;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
+import java.io.File;
 import java.net.URL;
 
 
 @Controller
 public class MainController {
 
-    private final DatabaseService databaseService;
+    private DatabaseService databaseService;
     private final ConfigurationService configService;
     private ApplicationContext applicationContext;
-    private final IntegrationController integrationController;
+    private IntegrationController integrationController;
+    private FileImportExportService fileImportExportService;
+
 
     //@FXML
     //private IntegrationController integrationController;
@@ -104,6 +111,17 @@ public class MainController {
         this.configService = configService;
         this.applicationContext = applicationContext;
         this.integrationController = integrationController;
+    }
+
+    @Autowired
+    public MainController(
+            FileImportExportService fileImportExportService,
+            ConfigurationService configService,
+            DatabaseService databaseService
+    ) {
+        this.fileImportExportService = fileImportExportService;
+        this.configService = configService;
+        this.databaseService = databaseService;
     }
 
     @FXML
@@ -456,6 +474,143 @@ public class MainController {
         menu.getItems().addAll(settingsItem, scheduleItem, reportItem);
         menuBar.getMenus().add(menu);
     }
+
+    @FXML
+    public void importConfiguration() {
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Import Configuration");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("JSON Files", "*.json")
+            );
+            File selectedFile = fileChooser.showOpenDialog(new Stage());
+
+            if (selectedFile != null) {
+                ConfigurationService.Configuration importedConfig =
+                        fileImportExportService.importFromJson(
+                                selectedFile.getAbsolutePath(),
+                                ConfigurationService.Configuration.class
+                        );
+
+                configService.saveConfiguration(importedConfig);
+                showAlert(Alert.AlertType.INFORMATION, "Import Successful",
+                        "Configuration imported from " + selectedFile.getAbsolutePath());
+            }
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Import Failed",
+                    "Could not import configuration: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void exportConfiguration() {
+        try {
+            ConfigurationService.Configuration config = configService.loadConfiguration();
+
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Export Configuration");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("JSON Files", "*.json")
+            );
+            File selectedFile = fileChooser.showSaveDialog(new Stage());
+
+            if (selectedFile != null) {
+                fileImportExportService.exportToJson(config, selectedFile.getAbsolutePath());
+                showAlert(Alert.AlertType.INFORMATION, "Export Successful",
+                        "Configuration exported to " + selectedFile.getAbsolutePath());
+            }
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Export Failed",
+                    "Could not export configuration: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void importData() {
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Import Data");
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("CSV Files", "*.csv"),
+                    new FileChooser.ExtensionFilter("JSON Files", "*.json")
+            );
+            File selectedFile = fileChooser.showOpenDialog(new Stage());
+
+            if (selectedFile != null) {
+                String fileName = selectedFile.getName().toLowerCase();
+                if (fileName.endsWith(".csv")) {
+                    // Import from CSV
+                    fileImportExportService.importFromCsv(selectedFile.getAbsolutePath());
+                } else if (fileName.endsWith(".json")) {
+                    // Import from JSON (generic import)
+                    fileImportExportService.importFromJson(selectedFile.getAbsolutePath(), Object.class);
+                }
+
+                showAlert(Alert.AlertType.INFORMATION, "Import Successful",
+                        "Data imported from " + selectedFile.getAbsolutePath());
+            }
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Import Failed",
+                    "Could not import data: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void exportData() {
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Export Data");
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("CSV Files", "*.csv"),
+                    new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"),
+                    new FileChooser.ExtensionFilter("JSON Files", "*.json")
+            );
+            File selectedFile = fileChooser.showSaveDialog(new Stage());
+
+            if (selectedFile != null) {
+                String fileName = selectedFile.getName().toLowerCase();
+                // Get your data from appropriate services
+                // This is a placeholder - replace with actual data retrieval
+                java.util.List<java.util.Map<String, Object>> data = getDataForExport();
+
+                if (fileName.endsWith(".csv")) {
+                    fileImportExportService.exportToCsv(data, selectedFile.getAbsolutePath());
+                } else if (fileName.endsWith(".xlsx")) {
+                    fileImportExportService.exportToExcel(data, selectedFile.getAbsolutePath());
+                } else if (fileName.endsWith(".json")) {
+                    fileImportExportService.exportToJson(data, selectedFile.getAbsolutePath());
+                }
+
+                showAlert(Alert.AlertType.INFORMATION, "Export Successful",
+                        "Data exported to " + selectedFile.getAbsolutePath());
+            }
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Export Failed",
+                    "Could not export data: " + e.getMessage());
+        }
+    }
+
+    // Placeholder method to get data for export
+    private java.util.List<java.util.Map<String, Object>> getDataForExport() {
+        java.util.List<java.util.Map<String, Object>> data = new java.util.ArrayList<>();
+
+        // Example data - replace with actual data retrieval from your services
+        java.util.Map<String, Object> item1 = new java.util.HashMap<>();
+        item1.put("ID", "001");
+        item1.put("Name", "Sample Item 1");
+        item1.put("Value", 100.50);
+
+        java.util.Map<String, Object> item2 = new java.util.HashMap<>();
+        item2.put("ID", "002");
+        item2.put("Name", "Sample Item 2");
+        item2.put("Value", 200.75);
+
+        data.add(item1);
+        data.add(item2);
+
+        return data;
+    }
+
 
     private void showAlert(Alert.AlertType type, String title, String content) {
         Platform.runLater(() -> {
