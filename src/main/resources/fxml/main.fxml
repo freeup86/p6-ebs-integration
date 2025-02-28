@@ -115,7 +115,7 @@
 
         <!-- Add Integration Simulator Tab -->
         <Tab text="Integration Simulator" closable="false">
-            <fx:include source="integrationsimulator.fxml"/>
+            <fx:include source="integration-simulator.fxml"/>
         </Tab>
 
         <Tab text="Logs" closable="false">

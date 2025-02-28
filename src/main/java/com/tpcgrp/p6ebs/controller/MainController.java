@@ -105,6 +105,9 @@ public class MainController {
     @FXML
     private ReconciliationController reconciliationController;
 
+    @FXML
+    private IntegrationSimulatorController simulatorController;
+
     // Constructor
     public MainController(DatabaseService databaseService, ConfigurationService configService, IntegrationController integrationController) {
         this.databaseService = databaseService;
@@ -186,6 +189,27 @@ public class MainController {
             logArea.appendText("Data Reconciliation tool loaded\n");
         } catch (Exception e) {
             logArea.appendText("Failed to load reconciliation tool: " + e.getMessage() + "\n");
+            e.printStackTrace();
+        }
+
+        try {
+            // Load integration simulator view
+            FXMLLoader simulatorLoader = new FXMLLoader(getClass().getResource("/fxml/integration-simulator.fxml"));
+            simulatorLoader.setControllerFactory(applicationContext::getBean);
+
+            Parent simulatorView = simulatorLoader.load();
+            simulatorController = simulatorLoader.getController();
+
+            // Create and add simulator tab
+            Tab simulatorTab = new Tab("Integration Simulator");
+            simulatorTab.setContent(simulatorView);
+            simulatorTab.setClosable(false);
+
+            mainTabPane.getTabs().add(simulatorTab);
+
+            logArea.appendText("Integration Simulator loaded\n");
+        } catch (Exception e) {
+            logArea.appendText("Failed to load Integration Simulator: " + e.getMessage() + "\n");
             e.printStackTrace();
         }
 

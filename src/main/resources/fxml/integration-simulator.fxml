@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.tpcgrp.p6ebs.controller.IntegrationSimulatorController">
+
+    <top>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="15" right="15" bottom="5" left="15"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Text style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Integration Simulator"/>
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="Help" onAction="#showHelp"/>
+            </HBox>
+
+            <Separator/>
+
+            <GridPane hgap="15" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints prefWidth="150"/>
+                    <ColumnConstraints prefWidth="200"/>
+                    <ColumnConstraints prefWidth="150"/>
+                    <ColumnConstraints prefWidth="200"/>
+                </columnConstraints>
+
+                <Label text="Integration Type:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <ComboBox fx:id="integrationTypeCombo" prefWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                <Label text="Sync Direction:" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                <ComboBox fx:id="syncDirectionCombo" prefWidth="200" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+
+                <Label text="Use Sample Data:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <HBox alignment="CENTER_LEFT" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <CheckBox fx:id="useSampleDataCheck"/>
+                    <Label text="Entity Count:"/>
+                    <Spinner fx:id="entityCountSpinner" prefWidth="20"/>
+                </HBox>
+
+                <Label text="Filter:" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                <HBox alignment="CENTER_LEFT" spacing="10" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                    <TextField fx:id="filterTextField" HBox.hgrow="ALWAYS"/>
+                    <Button text="Apply" onAction="#filterData" prefWidth="70"/>
+                </HBox>
+
+                <Label text="Simulate Errors:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <HBox alignment="CENTER_LEFT" spacing="10" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2">
+                    <CheckBox fx:id="simulateErrorsCheck"/>
+                    <Label text="Error Rate:"/>
+                    <Slider fx:id="errorRateSlider" prefWidth="200" showTickLabels="true" showTickMarks="true"/>
+                    <Label fx:id="errorRateLabel" text="10%"/>
+                </HBox>
+            </GridPane>
+        </VBox>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.6" orientation="VERTICAL">
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="5" right="15" bottom="5" left="15"/>
+                </padding>
+
+                <Label text="Data Preview:" style="-fx-font-weight: bold;"/>
+                <TableView fx:id="dataPreviewTable" VBox.vgrow="ALWAYS"/>
+            </VBox>
+
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="5" right="15" bottom="15" left="15"/>
+                </padding>
+
+                <Label text="Simulation Log:" style="-fx-font-weight: bold;"/>
+                <TextArea fx:id="simulationLogArea" VBox.vgrow="ALWAYS" editable="false" wrapText="true"/>
+            </VBox>
+        </SplitPane>
+    </center>
+
+    <bottom>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="5" right="15" bottom="15" left="15"/>
+            </padding>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button fx:id="startSimulationButton" text="Start Simulation" onAction="#startSimulation"
+                        style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+                <Button fx:id="cancelSimulationButton" text="Cancel" onAction="#cancelSimulation"/>
+                <Button fx:id="saveLogsButton" text="Save Logs" onAction="#saveLogs"/>
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Status:"/>
+                <Label fx:id="statusLabel" text="Ready"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <ProgressBar fx:id="simulationProgressBar" prefWidth="200"/>
+            </HBox>
+        </VBox>
+    </bottom>
+
+</BorderPane>
