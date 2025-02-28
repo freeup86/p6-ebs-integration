@@ -92,6 +92,12 @@ public class MainController {
     @FXML
     private ComboBox<String> logLevelComboBox;
 
+    @FXML
+    private DashboardController dashboardController;
+
+    @FXML
+    private ReconciliationController reconciliationController;
+
     // Constructor
     public MainController(DatabaseService databaseService, ConfigurationService configService, IntegrationController integrationController) {
         this.databaseService = databaseService;
@@ -118,6 +124,50 @@ public class MainController {
             // Rest of your code...
         } catch (Exception e) {
             logArea.appendText("Error loading integration module: " + e.getMessage() + "\n");
+            e.printStackTrace();
+        }
+
+        // Load dashboard view
+        try {
+            FXMLLoader dashboardLoader = new FXMLLoader(getClass().getResource("/fxml/dashboard.fxml"));
+            dashboardLoader.setControllerFactory(applicationContext::getBean);
+
+            Parent dashboardView = dashboardLoader.load();
+            dashboardController = dashboardLoader.getController();
+
+            // Create and add dashboard tab - make it the first tab
+            Tab dashboardTab = new Tab("Dashboard");
+            dashboardTab.setContent(dashboardView);
+            dashboardTab.setClosable(false);
+
+            mainTabPane.getTabs().add(0, dashboardTab);
+            mainTabPane.getSelectionModel().select(dashboardTab);
+
+            logArea.appendText("Dashboard loaded\n");
+        } catch (Exception e) {
+            logArea.appendText("Failed to load dashboard: " + e.getMessage() + "\n");
+            e.printStackTrace();
+        }
+
+        //Load Reconciliation Service
+        try {
+            // Load reconciliation view
+            FXMLLoader reconciliationLoader = new FXMLLoader(getClass().getResource("/fxml/reconciliation.fxml"));
+            reconciliationLoader.setControllerFactory(applicationContext::getBean);
+
+            Parent reconciliationView = reconciliationLoader.load();
+            reconciliationController = reconciliationLoader.getController();
+
+            // Create and add reconciliation tab
+            Tab reconciliationTab = new Tab("Data Reconciliation");
+            reconciliationTab.setContent(reconciliationView);
+            reconciliationTab.setClosable(false);
+
+            mainTabPane.getTabs().add(reconciliationTab);
+
+            logArea.appendText("Data Reconciliation tool loaded\n");
+        } catch (Exception e) {
+            logArea.appendText("Failed to load reconciliation tool: " + e.getMessage() + "\n");
             e.printStackTrace();
         }
 

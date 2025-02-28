@@ -29,8 +29,13 @@ public class P6ActivityService {
     public List<Map<String, Object>> getAllActivities(String server, String database,
                                                       String username, String password) throws SQLException {
 
+        /** P6 SQL CONNECTION
         String url = String.format("jdbc:sqlserver://%s;databaseName=%s;encrypt=true;trustServerCertificate=true",
                 server, database);
+         **/
+
+        // Oracle connection format
+        String url = String.format("jdbc:oracle:thin:@%s:1521:%s", server, database);
 
         List<Map<String, Object>> activities = new ArrayList<>();
 
@@ -83,8 +88,13 @@ public class P6ActivityService {
                                                             String username, String password,
                                                             String projectId) throws SQLException {
 
-        String url = String.format("jdbc:sqlserver://%s;databaseName=%s;encrypt=true;trustServerCertificate=true",
-                server, database);
+        /** P6 SQL CONNECTION
+         String url = String.format("jdbc:sqlserver://%s;databaseName=%s;encrypt=true;trustServerCertificate=true",
+         server, database);
+         **/
+
+        // Oracle connection format
+        String url = String.format("jdbc:oracle:thin:@%s:1521:%s", server, database);
 
         List<Map<String, Object>> activities = new ArrayList<>();
 
@@ -136,9 +146,15 @@ public class P6ActivityService {
      */
     public List<Map<String, Object>> getAllProjects(String server, String database,
                                                     String username, String password) throws SQLException {
-
+        
+        /** P6 SQL CONNECTION
+           /** P6 SQL CONNECTION
         String url = String.format("jdbc:sqlserver://%s;databaseName=%s;encrypt=true;trustServerCertificate=true",
                 server, database);
+         **/
+
+        // Oracle connection format
+        String url = String.format("jdbc:oracle:thin:@%s:1521:%s", server, database);
 
         List<Map<String, Object>> projects = new ArrayList<>();
 

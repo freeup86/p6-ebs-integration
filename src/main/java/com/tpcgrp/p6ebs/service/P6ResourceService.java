@@ -27,8 +27,12 @@ public class P6ResourceService {
     public List<Map<String, Object>> getAllResources(String server, String database,
                                                      String username, String password) throws SQLException {
 
+           /** P6 SQL CONNECTION
         String url = String.format("jdbc:sqlserver://%s;databaseName=%s;encrypt=true;trustServerCertificate=true",
                 server, database);
+         **/
+        // Oracle connection format
+        String url = String.format("jdbc:oracle:thin:@%s:1521:%s", server, database);
 
         List<Map<String, Object>> resources = new ArrayList<>();
 
@@ -80,8 +84,12 @@ public class P6ResourceService {
                                                String username, String password,
                                                String resourceId) throws SQLException {
 
+           /** P6 SQL CONNECTION
         String url = String.format("jdbc:sqlserver://%s;databaseName=%s;encrypt=true;trustServerCertificate=true",
                 server, database);
+         **/
+        // Oracle connection format
+        String url = String.format("jdbc:oracle:thin:@%s:1521:%s", server, database);
 
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
             String sql = "SELECT r.rsrc_id, r.rsrc_name, r.rsrc_short_name, r.email_addr, " +
@@ -131,8 +139,12 @@ public class P6ResourceService {
                                                            String username, String password,
                                                            String projectId) throws SQLException {
 
+           /** P6 SQL CONNECTION
         String url = String.format("jdbc:sqlserver://%s;databaseName=%s;encrypt=true;trustServerCertificate=true",
                 server, database);
+         **/
+        // Oracle connection format
+        String url = String.format("jdbc:oracle:thin:@%s:1521:%s", server, database);
 
         List<Map<String, Object>> resources = new ArrayList<>();
 
@@ -186,8 +198,12 @@ public class P6ResourceService {
                                                                       String username, String password,
                                                                       String activityId) throws SQLException {
 
+           /** P6 SQL CONNECTION
         String url = String.format("jdbc:sqlserver://%s;databaseName=%s;encrypt=true;trustServerCertificate=true",
                 server, database);
+         **/
+        // Oracle connection format
+        String url = String.format("jdbc:oracle:thin:@%s:1521:%s", server, database);
 
         List<Map<String, Object>> assignments = new ArrayList<>();
 
@@ -241,8 +257,12 @@ public class P6ResourceService {
                                                              String username, String password,
                                                              String startDate, String endDate) throws SQLException {
 
+           /** P6 SQL CONNECTION
         String url = String.format("jdbc:sqlserver://%s;databaseName=%s;encrypt=true;trustServerCertificate=true",
                 server, database);
+         **/
+        // Oracle connection format
+        String url = String.format("jdbc:oracle:thin:@%s:1521:%s", server, database);
 
         List<Map<String, Object>> availability = new ArrayList<>();
 

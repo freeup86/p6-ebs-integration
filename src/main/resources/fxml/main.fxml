@@ -24,6 +24,10 @@
     </MenuBar>
 
     <TabPane fx:id="mainTabPane" VBox.vgrow="ALWAYS">
+        <Tab text="Dashboard" closable="false">
+            <fx:include source="dashboard.fxml"/>
+        </Tab>
+
         <Tab text="Connection Setup" closable="false">
             <VBox spacing="10">
                 <padding>
@@ -37,7 +41,7 @@
                     <Label text="Server:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
                     <TextField fx:id="p6Server" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-                    <Label text="Database:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <Label text="SID:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
                     <TextField fx:id="p6Database" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
                     <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
@@ -98,6 +102,10 @@
 
         <Tab text="Integrations" closable="false">
             <fx:include source="integration.fxml"/>
+        </Tab>
+
+        <Tab text="Data Reconciliation" closable="false">
+            <fx:include source="reconciliation.fxml"/>
         </Tab>
 
         <Tab text="Logs" closable="false">

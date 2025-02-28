@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.tpcgrp.p6ebs.controller.ReconciliationController">
+
+    <top>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="15" right="15" bottom="5" left="15"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Text style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Data Reconciliation Tool"/>
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="Help" onAction="#showHelp"/>
+            </HBox>
+
+            <Separator/>
+
+            <GridPane hgap="10" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints prefWidth="120"/>
+                    <ColumnConstraints prefWidth="200"/>
+                    <ColumnConstraints prefWidth="120"/>
+                    <ColumnConstraints prefWidth="200"/>
+                </columnConstraints>
+
+                <Label text="Entity Type:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <ComboBox fx:id="entityTypeCombo" prefWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                <Label text="Filter By:" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                <ComboBox fx:id="filterFieldCombo" prefWidth="200" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+
+                <Label text="Filter Value:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="filterValueField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                <Label text="Show Only:" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                <ComboBox fx:id="discrepancyTypeCombo" prefWidth="200" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+
+                <HBox alignment="CENTER_RIGHT" spacing="10" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                    <Button text="Clear Filters" onAction="#clearFilters"/>
+                    <Button text="Compare Data" onAction="#compareData"/>
+                </HBox>
+            </GridPane>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="5" right="15" bottom="15" left="15"/>
+            </padding>
+
+            <TabPane>
+                <Tab text="Discrepancies" closable="false">
+                    <VBox spacing="10">
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label fx:id="discrepancyCountLabel" style="-fx-font-weight: bold;" text="0 discrepancies found"/>
+                            <Region HBox.hgrow="ALWAYS" />
+                            <ProgressIndicator fx:id="loadingIndicator" visible="false"/>
+                        </HBox>
+
+                        <TableView fx:id="discrepancyTable" VBox.vgrow="ALWAYS">
+                            <!-- Columns will be added programmatically -->
+                        </TableView>
+                    </VBox>
+                </Tab>
+
+                <Tab text="Detailed Comparison" closable="false">
+                    <SplitPane dividerPositions="0.5" VBox.vgrow="ALWAYS">
+                        <VBox spacing="5">
+                            <Label text="P6 Data" style="-fx-font-weight: bold;"/>
+                            <TableView fx:id="p6DataTable" VBox.vgrow="ALWAYS">
+                                <!-- Columns will be added programmatically -->
+                            </TableView>
+                        </VBox>
+
+                        <VBox spacing="5">
+                            <Label text="EBS Data" style="-fx-font-weight: bold;"/>
+                            <TableView fx:id="ebsDataTable" VBox.vgrow="ALWAYS">
+                                <!-- Columns will be added programmatically -->
+                            </TableView>
+                        </VBox>
+                    </SplitPane>
+                </Tab>
+
+                <Tab text="Resolution" closable="false">
+                    <VBox spacing="10">
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="Selected Entity:" style="-fx-font-weight: bold;"/>
+                            <Label fx:id="selectedEntityLabel" text="None selected"/>
+                            <Region HBox.hgrow="ALWAYS" />
+                            <ComboBox fx:id="resolutionActionCombo" promptText="Select Action"/>
+                            <Button text="Apply Resolution" onAction="#applyResolution"/>
+                        </HBox>
+
+                        <TableView fx:id="resolutionTable" VBox.vgrow="ALWAYS">
+                            <!-- Columns will be added programmatically -->
+                        </TableView>
+
+                        <HBox spacing="10" alignment="CENTER_RIGHT">
+                            <Button text="Resolve Selected" onAction="#resolveSelected"/>
+                            <Button text="Resolve All" onAction="#resolveAll"/>
+                        </HBox>
+                    </VBox>
+                </Tab>
+            </TabPane>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button text="Export Report" onAction="#exportReport"/>
+                <Button text="Schedule Reconciliation" onAction="#scheduleReconciliation"/>
+            </HBox>
+        </VBox>
+    </center>
+
+    <bottom>
+        <VBox>
+            <padding>
+                <Insets top="0" right="15" bottom="10" left="15"/>
+            </padding>
+
+            <ProgressBar fx:id="progressBar" progress="0.0" visible="false" maxWidth="Infinity"/>
+            <Label fx:id="statusLabel" text="Ready"/>
+        </VBox>
+    </bottom>
+
+</BorderPane>
