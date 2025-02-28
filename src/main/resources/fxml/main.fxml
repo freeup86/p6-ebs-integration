@@ -96,6 +96,10 @@
             <fx:include source="p6-activities.fxml"/>
         </Tab>
 
+        <Tab text="Integrations" closable="false">
+            <fx:include source="integration.fxml"/>
+        </Tab>
+
         <Tab text="Logs" closable="false">
             <VBox spacing="10">
                 <padding>

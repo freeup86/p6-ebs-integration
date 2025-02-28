@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.tpcgrp.p6ebs.controller.IntegrationController">
+
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <TabPane fx:id="integrationTabs" VBox.vgrow="ALWAYS">
+        <Tab text="Integration Control" closable="false">
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Integration Type:"/>
+                    <ComboBox fx:id="integrationTypeCombo" prefWidth="200"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="Start Integration" onAction="#startIntegration" fx:id="startIntegrationButton"/>
+                    <Button text="Cancel" onAction="#cancelIntegration" fx:id="cancelIntegrationButton"/>
+                    <Button text="Validate" onAction="#runValidation"/>
+                </HBox>
+
+                <Separator/>
+
+                <Label text="Integration History:" style="-fx-font-weight: bold"/>
+                <TableView fx:id="historyTable" VBox.vgrow="ALWAYS" prefHeight="200">
+                    <!-- Columns will be added programmatically -->
+                </TableView>
+
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <Button text="Generate Report" onAction="#generateReport"/>
+                </HBox>
+
+                <Separator/>
+
+                <Label text="Status Log:" style="-fx-font-weight: bold"/>
+                <TextArea fx:id="integrationLogArea" editable="false" wrapText="true" VBox.vgrow="ALWAYS"/>
+
+                <VBox spacing="5">
+                    <Label fx:id="statusLabel" text="Ready"/>
+                    <ProgressBar fx:id="integrationProgressBar" progress="0.0" maxWidth="Infinity"/>
+                </VBox>
+            </VBox>
+        </Tab>
+
+        <Tab text="Scheduler" closable="false">
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+
+                <GridPane hgap="10" vgap="10">
+                    <Label text="Integration Type:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <ComboBox fx:id="integrationTypeComboScheduler" prefWidth="200"
+                              GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                    <Label text="Sync Direction:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <ComboBox fx:id="syncDirectionCombo" prefWidth="200"
+                              GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                    <Label text="Enable Scheduling:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <CheckBox fx:id="enableScheduling"
+                              GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                    <Label text="Interval (hours):" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                    <Spinner fx:id="intervalHoursSpinner" prefWidth="200"
+                             GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                    <HBox spacing="10" alignment="CENTER_RIGHT"
+                          GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <Button text="Save Configuration" onAction="#saveSchedulerConfig"/>
+                        <Button text="Run Now" onAction="#runNow"/>
+                    </HBox>
+                </GridPane>
+
+                <Separator/>
+
+                <Label text="Scheduled Tasks:" style="-fx-font-weight: bold"/>
+                <TableView fx:id="scheduledTasksTable" VBox.vgrow="ALWAYS">
+                    <!-- Columns will be added programmatically -->
+                </TableView>
+            </VBox>
+        </Tab>
+    </TabPane>
+</VBox>

@@ -1,5 +1,7 @@
 package com.tpcgrp.p6ebs.service;
 
+import org.springframework.stereotype.Service;
+
 import java.sql.*;
 import java.util.*;
 

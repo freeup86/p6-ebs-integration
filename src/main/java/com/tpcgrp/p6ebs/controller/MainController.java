@@ -7,12 +7,23 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import org.springframework.stereotype.Controller;
+import org.springframework.context.ApplicationContext;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+
+import java.net.URL;
+
 
 @Controller
 public class MainController {
 
     private final DatabaseService databaseService;
     private final ConfigurationService configService;
+    private ApplicationContext applicationContext;
+    private final IntegrationController integrationController;
+
+    //@FXML
+    //private IntegrationController integrationController;
 
     // FXML Field Declarations
     @FXML
@@ -82,13 +93,34 @@ public class MainController {
     private ComboBox<String> logLevelComboBox;
 
     // Constructor
-    public MainController(DatabaseService databaseService, ConfigurationService configService) {
+    public MainController(DatabaseService databaseService, ConfigurationService configService, IntegrationController integrationController) {
         this.databaseService = databaseService;
         this.configService = configService;
+        this.applicationContext = applicationContext;
+        this.integrationController = integrationController;
     }
 
     @FXML
     public void initialize() {
+        // Add integration tab
+        // Add this to your initialize method where you're loading the integration tab
+        try {
+            URL integrationFxmlUrl = getClass().getResource("/fxml/integration.fxml");
+            if (integrationFxmlUrl == null) {
+                logArea.appendText("Could not find integration.fxml resource\n");
+                return; // Skip loading the integration tab if resource is missing
+            }
+
+            FXMLLoader loader = new FXMLLoader(integrationFxmlUrl);
+            loader.setControllerFactory(applicationContext::getBean);
+
+            Parent integrationView = loader.load();
+            // Rest of your code...
+        } catch (Exception e) {
+            logArea.appendText("Error loading integration module: " + e.getMessage() + "\n");
+            e.printStackTrace();
+        }
+
         initializeLogLevels();
         initializeButtons();
         setupProgressBar();
@@ -138,7 +170,7 @@ public class MainController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("About");
         alert.setHeaderText("P6-EBS Integration Tool");
-        alert.setContentText("Version 1.0\nDeveloped by TPC Group");
+        alert.setContentText("Version 1.0\nDeveloped by LIT Consulting");
         alert.showAndWait();
     }
 
@@ -336,6 +368,43 @@ public class MainController {
             return false;
         }
         return true;
+    }
+
+    // Add Integration menu item
+    @FXML
+    public void showIntegrationSettings() {
+        // Switch to the integration tab
+        for (Tab tab : mainTabPane.getTabs()) {
+            if (tab.getText().equals("Integration")) {
+                mainTabPane.getSelectionModel().select(tab);
+                break;
+            }
+        }
+    }
+
+    // Add to the menu handling methods to include integration functionality
+    @FXML
+    public void showMenu() {
+        Menu menu = new Menu("Integration");
+
+        MenuItem settingsItem = new MenuItem("Integration Settings");
+        settingsItem.setOnAction(event -> showIntegrationSettings());
+
+        MenuItem scheduleItem = new MenuItem("Scheduling");
+        scheduleItem.setOnAction(event -> {
+            showIntegrationSettings();
+            // Select scheduler tab
+            integrationController.selectSchedulerTab();
+        });
+
+        MenuItem reportItem = new MenuItem("Generate Reports");
+        reportItem.setOnAction(event -> {
+            showIntegrationSettings();
+            integrationController.generateReport();
+        });
+
+        menu.getItems().addAll(settingsItem, scheduleItem, reportItem);
+        menuBar.getMenus().add(menu);
     }
 
     private void showAlert(Alert.AlertType type, String title, String content) {
