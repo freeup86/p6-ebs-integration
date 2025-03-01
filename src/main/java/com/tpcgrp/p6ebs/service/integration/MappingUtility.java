@@ -52,6 +52,20 @@ public class MappingUtility {
         activityMappings.put("status_code", "task_status_code");
         fieldMappings.put("activity", activityMappings);
 
+        // Task field mappings
+        Map<String, String> taskMappings = new HashMap<>();
+        taskMappings.put("task_id", "activity_id");
+        taskMappings.put("task_name", "activity_name");
+        taskMappings.put("task_number", "activity_code");
+        taskMappings.put("start_date", "start_date");
+        taskMappings.put("completion_date", "finish_date");
+        taskMappings.put("task_status_code", "status_code");
+        taskMappings.put("actual_start_date", "act_start_date");
+        taskMappings.put("actual_finish_date", "act_end_date");
+        taskMappings.put("planned_duration", "duration");
+        taskMappings.put("project_id", "proj_id");
+        fieldMappings.put("task", taskMappings);
+
         // Resource field mappings
         Map<String, String> resourceMappings = new HashMap<>();
         resourceMappings.put("rsrc_id", "person_id");

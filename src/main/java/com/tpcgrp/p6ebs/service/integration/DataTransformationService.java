@@ -292,4 +292,55 @@ public class DataTransformationService {
 
         return transformedData;
     }
+
+    /**
+     * Transform task data from EBS to P6
+     */
+    public Map<String, Object> transformTaskDataEbsToP6(Map<String, Object> ebsTask) {
+        logService.logInfo("Transforming EBS task data to P6 format");
+
+        // Apply field mappings
+        Map<String, Object> p6ActivityData = mappingUtility.mapEbsToP6("task", ebsTask);
+
+        // Apply any specific transformations
+
+        // Handle date formatting
+        if (p6ActivityData.containsKey("start_date")) {
+            p6ActivityData.put("start_date",
+                    formatDate(p6ActivityData.get("start_date"), "yyyy-MM-dd"));
+        }
+
+        if (p6ActivityData.containsKey("finish_date")) {
+            p6ActivityData.put("finish_date",
+                    formatDate(p6ActivityData.get("finish_date"), "yyyy-MM-dd"));
+        }
+
+        // Handle status codes conversion
+        if (p6ActivityData.containsKey("status_code")) {
+            p6ActivityData.put("status_code",
+                    mapEbsTaskStatusToP6(p6ActivityData.get("status_code")));
+        }
+
+        return p6ActivityData;
+    }
+
+    /**
+     * Map EBS task status codes to P6 status codes
+     */
+    private String mapEbsTaskStatusToP6(Object ebsStatusCode) {
+        if (ebsStatusCode == null) {
+            return null;
+        }
+
+        String status = ebsStatusCode.toString();
+
+        // Map EBS status codes to P6 status codes
+        Map<String, String> statusMap = new HashMap<>();
+        statusMap.put("APPROVED", "1");         // Not Started
+        statusMap.put("IN_PROGRESS", "2");      // In Progress
+        statusMap.put("COMPLETED", "3");        // Completed
+        statusMap.put("CANCELLED", "4");        // Cancelled
+
+        return statusMap.getOrDefault(status, "1"); // Default to "Not Started"
+    }
 }

@@ -1,8 +1,11 @@
 package com.tpcgrp.p6ebs.controller;
 
+import com.primavera.integration.client.IntegrationParent;
+import com.primavera.integration.client.bo.object.Activity;
 import com.tpcgrp.p6ebs.service.ConfigurationService;
 import com.tpcgrp.p6ebs.service.DatabaseService;
 import com.tpcgrp.p6ebs.service.FileImportExportService;
+import com.tpcgrp.p6ebs.service.P6ProjectService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -14,25 +17,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.context.ApplicationContext;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-
 import java.io.File;
-import java.net.URL;
+import com.primavera.integration.client.IntegrationParent;
+import com.primavera.integration.server.*;
 
 
 @Controller
 public class MainController {
 
-    private DatabaseService databaseService;
+    private final DatabaseService databaseService;
     private final ConfigurationService configService;
     private ApplicationContext applicationContext;
-    private IntegrationController integrationController;
     private FileImportExportService fileImportExportService;
 
-
-    //@FXML
-    //private IntegrationController integrationController;
-
+    private P6ProjectService p6ProjectService;
     // FXML Field Declarations
+    @FXML
+    private IntegrationController integrationController;
+
     @FXML
     private VBox mainContainer;
 
@@ -66,6 +68,7 @@ public class MainController {
     @FXML
     private PasswordField ebsPassword;
 
+    /*
     @FXML
     private CheckBox projectFinancialsCheck;
 
@@ -80,6 +83,7 @@ public class MainController {
 
     @FXML
     private CheckBox projectWbsCheck;
+    */
 
     @FXML
     private TextArea logArea;
@@ -112,7 +116,6 @@ public class MainController {
     public MainController(DatabaseService databaseService, ConfigurationService configService, IntegrationController integrationController) {
         this.databaseService = databaseService;
         this.configService = configService;
-        this.applicationContext = applicationContext;
         this.integrationController = integrationController;
     }
 
@@ -129,8 +132,7 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        // Add integration tab
-        // Add this to your initialize method where you're loading the integration tab
+        /* // Add integration tab
         try {
             URL integrationFxmlUrl = getClass().getResource("/fxml/integration.fxml");
             if (integrationFxmlUrl == null) {
@@ -146,7 +148,7 @@ public class MainController {
         } catch (Exception e) {
             logArea.appendText("Error loading integration module: " + e.getMessage() + "\n");
             e.printStackTrace();
-        }
+        } */
 
         // Load dashboard view
         try {
@@ -170,7 +172,7 @@ public class MainController {
             e.printStackTrace();
         }
 
-        //Load Reconciliation Service
+        /* //Load Reconciliation Service
         try {
             // Load reconciliation view
             FXMLLoader reconciliationLoader = new FXMLLoader(getClass().getResource("/fxml/reconciliation.fxml"));
@@ -190,8 +192,9 @@ public class MainController {
         } catch (Exception e) {
             logArea.appendText("Failed to load reconciliation tool: " + e.getMessage() + "\n");
             e.printStackTrace();
-        }
+        } */
 
+        /* //Load Simulator
         try {
             // Load integration simulator view
             FXMLLoader simulatorLoader = new FXMLLoader(getClass().getResource("/fxml/integration-simulator.fxml"));
@@ -211,7 +214,7 @@ public class MainController {
         } catch (Exception e) {
             logArea.appendText("Failed to load Integration Simulator: " + e.getMessage() + "\n");
             e.printStackTrace();
-        }
+        } */
 
         initializeLogLevels();
         initializeButtons();
@@ -375,11 +378,11 @@ public class MainController {
             ebsPassword.setText(config.getEbsPassword());
 
             // Load integration settings
-            projectFinancialsCheck.setSelected(config.isProjectFinancialsEnabled());
-            resourceManagementCheck.setSelected(config.isResourceManagementEnabled());
-            procurementCheck.setSelected(config.isProcurementEnabled());
-            timesheetCheck.setSelected(config.isTimesheetEnabled());
-            projectWbsCheck.setSelected(config.isProjectWbsEnabled());
+            //projectFinancialsCheck.setSelected(config.isProjectFinancialsEnabled());
+            //resourceManagementCheck.setSelected(config.isResourceManagementEnabled());
+            //procurementCheck.setSelected(config.isProcurementEnabled());
+            //timesheetCheck.setSelected(config.isTimesheetEnabled());
+            //projectWbsCheck.setSelected(config.isProjectWbsEnabled());
 
             logArea.appendText("Configuration loaded successfully\n");
         } catch (Exception e) {
@@ -406,11 +409,11 @@ public class MainController {
             config.setEbsPassword(ebsPassword.getText());
 
             // Set integration settings
-            config.setProjectFinancialsEnabled(projectFinancialsCheck.isSelected());
-            config.setResourceManagementEnabled(resourceManagementCheck.isSelected());
-            config.setProcurementEnabled(procurementCheck.isSelected());
-            config.setTimesheetEnabled(timesheetCheck.isSelected());
-            config.setProjectWbsEnabled(projectWbsCheck.isSelected());
+            //config.setProjectFinancialsEnabled(projectFinancialsCheck.isSelected());
+            //config.setResourceManagementEnabled(resourceManagementCheck.isSelected());
+            //config.setProcurementEnabled(procurementCheck.isSelected());
+            //config.setTimesheetEnabled(timesheetCheck.isSelected());
+            //config.setProjectWbsEnabled(projectWbsCheck.isSelected());
 
             configService.saveConfiguration(config);
             showAlert(Alert.AlertType.INFORMATION, "Success", "Configuration saved successfully");
@@ -429,6 +432,7 @@ public class MainController {
 
         logArea.appendText("Starting integration process...\n");
 
+        /*
         if (projectFinancialsCheck.isSelected()) {
             logArea.appendText("Processing Project Financials...\n");
         }
@@ -446,10 +450,12 @@ public class MainController {
         }
 
         showAlert(Alert.AlertType.INFORMATION, "Integration", "Integration process completed");
-        logArea.appendText("Integration process completed\n");
+        logArea.appendText("Integration process completed\n"); */
     }
 
     private boolean validateIntegrationSettings() {
+
+        /*
         if (!projectFinancialsCheck.isSelected() &&
                 !resourceManagementCheck.isSelected() &&
                 !procurementCheck.isSelected() &&
@@ -458,7 +464,7 @@ public class MainController {
 
             showAlert(Alert.AlertType.ERROR, "Error", "Please select at least one integration type");
             return false;
-        }
+        }*/
         return true;
     }
 

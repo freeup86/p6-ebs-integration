@@ -28,6 +28,7 @@ public class IntegrationController {
     private final ConfigurationService configService;
     public TabPane integrationTabs;
 
+
     @FXML
     private TableView<IntegrationHistoryItem> historyTable;
 
@@ -110,6 +111,11 @@ public class IntegrationController {
         cancelIntegrationButton.setDisable(true);
         integrationProgressBar.setProgress(0);
         integrationProgressBar.setVisible(false);
+
+        integrationTypeCombo.setItems(FXCollections.observableArrayList(
+                "projectFinancials", "resourceManagement", "procurement",
+                "timesheet", "projectWbs", "ebsTasksToP6"
+        ));
 
         // Update the history and scheduler tables
         refreshHistoryTable();

@@ -80,6 +80,7 @@
             </VBox>
         </Tab>
 
+        <!--
         <Tab text="Integration Setup" closable="false">
             <VBox spacing="10">
                 <padding>
@@ -100,11 +101,13 @@
                 </HBox>
             </VBox>
         </Tab>
+        -->
 
         <Tab text="P6 Activities" closable="false">
             <fx:include source="p6-activities.fxml"/>
         </Tab>
 
+        <!--
         <Tab text="Integrations" closable="false">
             <fx:include source="integration.fxml"/>
         </Tab>
@@ -113,10 +116,10 @@
             <fx:include source="reconciliation.fxml"/>
         </Tab>
 
-        <!-- Add Integration Simulator Tab -->
+         Add Integration Simulator Tab
         <Tab text="Integration Simulator" closable="false">
             <fx:include source="integration-simulator.fxml"/>
-        </Tab>
+        </Tab>-->
 
         <Tab text="Logs" closable="false">
             <VBox spacing="10">

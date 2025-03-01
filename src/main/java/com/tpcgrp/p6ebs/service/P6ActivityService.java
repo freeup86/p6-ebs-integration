@@ -218,4 +218,106 @@ public class P6ActivityService {
             }
         }
     }
+
+    /**
+     * Create or update an activity in P6
+     *
+     * @param server The database server address
+     * @param database The database name
+     * @param username Database username
+     * @param password Database password
+     * @param activityData Activity data to create/update
+     * @return boolean indicating success or failure
+     * @throws SQLException If a database error occurs
+     */
+    public boolean createOrUpdateActivity(String server, String database,
+                                          String username, String password,
+                                          Map<String, Object> activityData) throws SQLException {
+
+        String url = String.format("jdbc:oracle:thin:@%s:1521:%s", server, database);
+
+        try (Connection conn = DriverManager.getConnection(url, username, password)) {
+            // Check if activity exists
+            String activityId = activityData.get("activity_id").toString();
+            String projectId = activityData.get("proj_id").toString();
+
+            String checkSql = "SELECT COUNT(*) FROM ACTIVITIES WHERE activity_id = ? AND proj_id = ?";
+
+            boolean exists = false;
+
+            try (PreparedStatement stmt = conn.prepareStatement(checkSql)) {
+                stmt.setString(1, activityId);
+                stmt.setString(2, projectId);
+
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        exists = rs.getInt(1) > 0;
+                    }
+                }
+            }
+
+            if (exists) {
+                // Update existing activity
+                StringBuilder updateSql = new StringBuilder("UPDATE ACTIVITIES SET ");
+                List<String> setClauses = new ArrayList<>();
+                List<Object> params = new ArrayList<>();
+
+                for (Map.Entry<String, Object> entry : activityData.entrySet()) {
+                    String key = entry.getKey();
+                    if (!key.equals("activity_id") && !key.equals("proj_id") && entry.getValue() != null) {
+                        setClauses.add(key + " = ?");
+                        params.add(entry.getValue());
+                    }
+                }
+
+                updateSql.append(String.join(", ", setClauses));
+                updateSql.append(" WHERE activity_id = ? AND proj_id = ?");
+
+                try (PreparedStatement stmt = conn.prepareStatement(updateSql.toString())) {
+                    int paramIndex = 1;
+                    for (Object param : params) {
+                        stmt.setObject(paramIndex++, param);
+                    }
+
+                    stmt.setString(paramIndex++, activityId);
+                    stmt.setString(paramIndex, projectId);
+
+                    int rowsUpdated = stmt.executeUpdate();
+                    return rowsUpdated > 0;
+                }
+            } else {
+                // Insert new activity
+                StringBuilder insertSql = new StringBuilder("INSERT INTO ACTIVITIES (");
+                StringBuilder valuesSql = new StringBuilder("VALUES (");
+                List<Object> params = new ArrayList<>();
+
+                for (Map.Entry<String, Object> entry : activityData.entrySet()) {
+                    if (entry.getValue() != null) {
+                        if (params.size() > 0) {
+                            insertSql.append(", ");
+                            valuesSql.append(", ");
+                        }
+
+                        insertSql.append(entry.getKey());
+                        valuesSql.append("?");
+                        params.add(entry.getValue());
+                    }
+                }
+
+                insertSql.append(") ").append(valuesSql).append(")");
+
+                try (PreparedStatement stmt = conn.prepareStatement(insertSql.toString())) {
+                    int paramIndex = 1;
+                    for (Object param : params) {
+                        stmt.setObject(paramIndex++, param);
+                    }
+
+                    int rowsInserted = stmt.executeUpdate();
+                    return rowsInserted > 0;
+                }
+            }
+        } catch (SQLException e) {
+            throw e;
+        }
+    }
 }

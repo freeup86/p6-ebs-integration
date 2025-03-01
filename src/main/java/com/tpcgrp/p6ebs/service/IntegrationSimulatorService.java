@@ -1,4 +1,4 @@
-package com.tpcgrp.p6ebs.service.simulation;
+package com.tpcgrp.p6ebs.service;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;

@@ -99,6 +99,8 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
             <optional>true</optional>
         </dependency>
 
@@ -108,12 +110,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
-            <scope>provided</scope>
-        </dependency>
+
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>javax.mail</artifactId>
@@ -147,6 +144,28 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
+        </dependency>
+
+        <!-- P6 API intgclient.jar dependency -->
+        <dependency>
+            <groupId>com.oracle.primavera</groupId>
+            <artifactId>intgclient</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/intgclient.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.oracle.primavera</groupId>
+            <artifactId>intgserver</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/intgserver.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle.primavera</groupId>
+            <artifactId>p6-integration-api</artifactId>
+            <version>x.x.x</version>  <!-- Replace with actual version -->
         </dependency>
     </dependencies>
     <build>

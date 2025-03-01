@@ -72,6 +72,14 @@ public class ConfigurationManager {
     private IntegrationConfig createDefaultConfiguration() {
         IntegrationConfig defaultConfig = new IntegrationConfig();
 
+        // Default sync directions
+        Map<String, String> syncDirections = null;
+        syncDirections.put("ebsTasksToP6", "EBS_TO_P6");
+
+        // Default sync intervals
+        Map<String, Integer> syncIntervals = null;
+        syncIntervals.put("ebsTasksToP6", 12); // Hours
+
         // Set default values
         defaultConfig.setBatchSize(100);
         defaultConfig.setRetryCount(3);
@@ -79,7 +87,7 @@ public class ConfigurationManager {
         defaultConfig.setLogLevel("INFO");
 
         // Default sync directions
-        Map<String, String> syncDirections = new HashMap<>();
+        syncDirections = new HashMap<>();
         syncDirections.put("projectFinancials", "P6_TO_EBS");
         syncDirections.put("resourceManagement", "BIDIRECTIONAL");
         syncDirections.put("procurement", "EBS_TO_P6");
@@ -88,7 +96,7 @@ public class ConfigurationManager {
         defaultConfig.setSyncDirections(syncDirections);
 
         // Default sync intervals
-        Map<String, Integer> syncIntervals = new HashMap<>();
+        syncIntervals = new HashMap<>();
         syncIntervals.put("projectFinancials", 24); // Hours
         syncIntervals.put("resourceManagement", 12);
         syncIntervals.put("procurement", 6);
