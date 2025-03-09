@@ -112,6 +112,9 @@ public class MainController {
     @FXML
     private IntegrationSimulatorController simulatorController;
 
+    @FXML
+    private P6ProjectSearchController p6ProjectSearchController;
+
     // Constructor
     public MainController(DatabaseService databaseService, ConfigurationService configService, IntegrationController integrationController) {
         this.databaseService = databaseService;
@@ -132,6 +135,27 @@ public class MainController {
 
     @FXML
     public void initialize() {
+        // Load P6 Project Search view
+        try {
+            FXMLLoader projectSearchLoader = new FXMLLoader(getClass().getResource("/fxml/p6-project-search.fxml"));
+            projectSearchLoader.setControllerFactory(applicationContext::getBean);
+
+            Parent projectSearchView = projectSearchLoader.load();
+            p6ProjectSearchController = projectSearchLoader.getController();
+
+            // Create and add project search tab
+            Tab projectSearchTab = new Tab("P6 Project Search");
+            projectSearchTab.setContent(projectSearchView);
+            projectSearchTab.setClosable(false);
+
+            mainTabPane.getTabs().add(projectSearchTab);
+
+            logArea.appendText("P6 Project Search tool loaded\n");
+        } catch (Exception e) {
+            logArea.appendText("Failed to load P6 Project Search tool: " + e.getMessage() + "\n");
+            e.printStackTrace();
+        }
+
         /* // Add integration tab
         try {
             URL integrationFxmlUrl = getClass().getResource("/fxml/integration.fxml");
@@ -321,6 +345,16 @@ public class MainController {
                 // Pass connection parameters to P6ActivitiesController
                 if (p6ActivitiesController != null) {
                     p6ActivitiesController.setConnectionParams(
+                            p6Server.getText(),
+                            p6Database.getText(),
+                            p6Username.getText(),
+                            p6Password.getText()
+                    );
+                }
+
+                // Pass connection parameters to P6ProjectSearchController
+                if (p6ProjectSearchController != null) {
+                    p6ProjectSearchController.setConnectionParams(
                             p6Server.getText(),
                             p6Database.getText(),
                             p6Username.getText(),

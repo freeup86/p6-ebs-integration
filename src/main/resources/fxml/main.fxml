@@ -33,6 +33,10 @@
             <fx:include source="dashboard.fxml"/>
         </Tab>
 
+        <Tab text="Project Search" closable="false">
+            <fx:include source="p6-project-search.fxml"/>
+        </Tab>
+
         <Tab text="Connection Setup" closable="false">
             <VBox spacing="10">
                 <padding>

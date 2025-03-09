@@ -6,6 +6,7 @@ import java.util.*;
 /**
  * Service class for retrieving projects from Primavera P6 database.
  */
+
 public class P6ProjectService {
 
     private final DatabaseService databaseService;
